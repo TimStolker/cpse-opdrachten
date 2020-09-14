@@ -106,7 +106,7 @@ int main( void ){
    std::ofstream myfile; 
    auto p = note_player_pc(myfile);
    myfile.open("melody.cpp");
-   myfile << "#include \"melody.hpp\" \n" << "void play( note_player & p ){ \n";
+   myfile << "#include \"melody.hpp\" \n" << "void melody::play( note_player & p ){ \n";
 
    
    
