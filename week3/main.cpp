@@ -109,6 +109,9 @@ int main( void ){
    auto i2c_bus = hwlib::i2c_bus_bit_banged_scl_sda( scl,sda );
    
    auto display = hwlib::glcd_oled( i2c_bus, 0x3c );  
+
+   auto sw1 = hwlib::target::pin_in( hwlib::target::pins::d7 );
+   auto sw2 = hwlib::target::pin_in( hwlib::target::pins::d6 );
    
    constexpr auto sinusses = lookup< 60, int >( scaled_sine_from_degrees );
    constexpr auto cosinusses = lookup< 60, int >( scaled_cosine_from_degrees );
@@ -117,7 +120,18 @@ int main( void ){
    int i = 59;
    int j = 59;
    while(true){
-      if(hwlib::now_us() > (start + 100000)){
+      if(sw1.read() == 0){
+         if(i != 0){
+            i--;
+         } 
+      }
+      if(sw2.read() == 0){
+         if(j != 0){
+            j-=5;
+         } 
+      }
+      if(hwlib::now_us() > (start + 60000000)){
+            hwlib::cout << "loop?" << hwlib::endl;
          i--;
          auto targetMin = hwlib::xy(sinusses.get( i )+32, cosinusses.get( i ));  //32 voor in het midden
          auto targetHour = hwlib::xy(sinusses.get( j )+32, cosinusses.get( j ));
@@ -130,6 +144,7 @@ int main( void ){
          }
          clock(display,targetMin,targetHour);
          start = hwlib::now_us();
+
       }
        
    }
