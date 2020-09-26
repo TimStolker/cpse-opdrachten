@@ -1,0 +1,5 @@
+   lz_decompressor decompressor;
+   decompressor.decompress( 
+      [ &f1 ]()-> int { auto c = f1.get(); return f1.eof() ? '\0' : c; },
+      [ &f2 ]( char c ){ std::cout << c; }
+   );
