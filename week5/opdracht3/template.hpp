@@ -47,9 +47,9 @@ public:
 
     T max(){
         T maximum = arr[0];
-        for( const auto & x : arr ){     //loop door de array heen
-            if(x > maximum){
-                maximum = x;
+        for( int i=0; i<arraySize; i++ ){     //loop door de array heen
+            if(arr[i] > maximum){
+                maximum = arr[i];
             }
         }
         return maximum;
