@@ -48,7 +48,7 @@ public:
         lhs << "{";
         for( int i = 0; i < rhs.arraySize; i++ ){     //loop door de array heen
             lhs << rhs.arr[ i ];
-            if(!(i==rhs.arraySize-1)){
+            if(!(i==rhs.arraySize-1)){                //check voor de laatste in de array om daar geen ',' achter te zetten
                 lhs << ",";
             }
         }
