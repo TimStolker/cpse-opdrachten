@@ -61,3 +61,27 @@ TEST_CASE( "max" ){
     REQUIRE( arr.max() == 666 );   
 }
 
+TEST_CASE( "type int" ){
+    std::stringstream s;
+    my_array<int, 3> arr;
+    arr.add(4);
+    arr.add(2);
+    arr.add(6);
+
+    s << arr;
+
+    REQUIRE( s.str() == "{4,2,6}" );  
+}
+
+TEST_CASE( "type char" ){
+    std::stringstream s;
+    my_array<char, 3> arr;
+    arr.add('r');
+    arr.add('b');
+    arr.add('c');
+
+    s << arr;
+
+    REQUIRE( s.str() == "{r,b,c}" );  
+}
+
