@@ -1,64 +1,72 @@
-#include "template.hpp"
+#ifndef TEMPLATE_HPP
+#define TEMPLATE_HPP
+#include <array>
 #include <iostream>
-#define CATCH_CONFIG_MAIN
-#include "catch.hpp"
 
-TEST_CASE( "add" ){
-    std::stringstream s;
-    my_array<int, 10> arr;
-    arr.add(4);
-    arr.add(2);
-    arr.add(6);
-    arr.add(2);
+template< typename T, int N >
+class my_array {
+private:
+    std::array< T, N > arr;
+    int arraySize = 0;
 
-    s << arr;
+public:
+    void add( T var ){
+        if(arraySize==N){               //check vol
+            return;
+        }
+        for( const auto & x : arr ){     //loop door de array heen
+            if(x==var){
+                return;
+            }
+        }
+        arr[ arraySize ] = var;
+        arraySize+=1;
 
-    REQUIRE( s.str() == "{4,2,6}" );   
-}
+    }
 
-TEST_CASE( "remove" ){
-    std::stringstream s;
-    my_array<int, 10> arr;
-    arr.add(1);
-    arr.add(2);
-    arr.add(3);
+    void remove(T var){                 
+        for( int i=0; i<arraySize; i++ ){
+            if(arr[i] == var){
+                arraySize -= 1;
+                for(int j=i; j<arraySize; j++){
+                    arr[j] = arr[j+1];
+                }
+                break;  
+            }
+        }
+    }
 
-    arr.remove(2);
-    arr.remove(4);
+    bool contains(T var){
+        for( const auto & x : arr ){     //loop door de array heen
+            if(x==var){
+                return true;             //true als het nummer erin zit
+            }
+        }
+        return false;
+    }
 
-    s << arr;
-   
-    REQUIRE( s.str() == "{1,3}" ); 
-}
+    T max(){
+        T maximum = arr[0];
+        for( const auto & x : arr ){     //loop door de array heen
+            if(x > maximum){
+                maximum = x;
+            }
+        }
+        return maximum;
+    }
 
-TEST_CASE( "operator<<" ){
-    std::stringstream s;
-    my_array<int, 10> arr;
-    arr.add(1);
-    arr.add(2);
+    friend std::ostream &operator<<( std::ostream & lhs, const my_array & rhs){
+        lhs << "{";
+        for( int i = 0; i < rhs.arraySize; i++ ){     //loop door de array heen
+            lhs << rhs.arr[ i ];
+            if(!(i==rhs.arraySize-1)){                //check voor de laatste in de array om daar geen ',' achter te zetten
+                lhs << ",";
+            }
+        }
+        lhs << "}";
+        return lhs;
+    }
 
-    s << arr;
-   
-    REQUIRE( s.str() == "{1,2}" );   
-}
+};
 
-TEST_CASE( "contains" ){
-    my_array<int, 10> arr;
-    arr.add(4);
-    arr.add(2);
-    arr.add(6);
-
-    REQUIRE( arr.contains(2) == true );  
-}
-
-TEST_CASE( "max" ){
-    std::stringstream s;
-    my_array<int, 10> arr;
-    arr.add(1);
-    arr.add(3);
-    arr.add(666);
-    arr.add(2);
-   
-    REQUIRE( arr.max() == 666 );   
-}
-
+#endif
