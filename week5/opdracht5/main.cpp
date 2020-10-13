@@ -1,5 +1,4 @@
 #include "template.hpp"
-#include <iostream>
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
@@ -85,15 +84,16 @@ TEST_CASE( "type char" ){
     REQUIRE( s.str() == "{r,b,c}" );  
 }
 
+
 TEST_CASE( "max char" ){
-    std::stringstream s;
-    my_array<char, 3> arr;
-    arr.add('a');
-    arr.add('b');
-    arr.add('c');
+   my_array< std::array< char, 3>, 3 > big_array;
+   std::array< char, 3> array1 {'a','b','c'};
+   std::array< char, 3> array2 {'x','y','z'};
+   std::array< char, 3> array3 {'g','h','i'};
+   big_array.add(array1);
+   big_array.add(array2);
+   big_array.add(array3);
 
-    s << arr;
-
-    REQUIRE( arr.max() == 'c' );  
+   REQUIRE( big_array.max() == array2 );  
 }
 
