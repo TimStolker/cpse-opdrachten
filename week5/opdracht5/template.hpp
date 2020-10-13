@@ -46,7 +46,7 @@ public:
     }
 
     T max(){
-        T maximum = arr[0];
+        T maximum = {};
         for( int i=0; i<arraySize; i++ ){     //loop door de array heen
             if(arr[i] > maximum){
                 maximum = arr[i];
